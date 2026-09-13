@@ -14,19 +14,22 @@ class Gestures {
 
     /**
      * Swipe generico entre dos puntos (en pixeles).
+     * `duration` controla la velocidad del arrastre: un valor bajo produce un
+     * "fling" (util para el carrusel horizontal), uno alto un arrastre lento y
+     * controlado (necesario para desplazar el ScrollView vertical sin rebote).
      */
-    static async swipe(from, to) {
+    static async swipe(from, to, duration = 600, settle = 500) {
         await driver
             .action('pointer')
             .move({ duration: 0, x: from.x, y: from.y })
             .down({ button: 0 })
             .pause(100)
-            .move({ duration: 600, x: to.x, y: to.y })
+            .move({ duration, x: to.x, y: to.y })
             .up({ button: 0 })
             .perform();
 
-        // Pequena pausa para que termine la animacion del carrusel.
-        await driver.pause(500);
+        // Pausa para que termine la animacion.
+        await driver.pause(settle);
     }
 
     /**
@@ -55,13 +58,20 @@ class Gestures {
 
     /**
      * Swipe vertical de abajo hacia arriba (baja en la pantalla).
+     * Recorrido amplio (85% -> 15%) para desplazar el ScrollView y revelar
+     * el contenido escondido de la seccion Swipe ("You found me!!!").
      */
     static async swipeUp() {
         const { width, height } = await this.getScreenSize();
         const x = Math.round(width * 0.5);
+        // El punto de inicio (88%) queda POR DEBAJO del carrusel horizontal para
+        // que el gesto lo reciba el ScrollView y no lo intercepte el carrusel.
+        // Arrastre lento (1000ms) para desplazar sin que rebote.
         await this.swipe(
-            { x, y: Math.round(height * 0.7) },
-            { x, y: Math.round(height * 0.3) }
+            { x, y: Math.round(height * 0.88) },
+            { x, y: Math.round(height * 0.12) },
+            1000,
+            800
         );
     }
 }
