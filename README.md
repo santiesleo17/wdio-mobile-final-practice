@@ -88,6 +88,31 @@ test/
 
 ## Nota sobre los selectores
 
-Los selectores usan los `accessibility id` de la app demo. Como estos pueden
-cambiar entre versiones del `.apk`, si algun test no encuentra un elemento
-abre **Appium Inspector** y verifica el id real de ese elemento en tu version.
+Los selectores usan los `accessibility id` de la app demo (verificados contra
+la version **v1.0.8**). Como pueden cambiar entre versiones del `.apk`, si algun
+test no encuentra un elemento abre **Appium Inspector** y verifica el id real.
+
+## Verificacion y consejos de entorno
+
+La suite se valido con exito (4 specs / 11 tests) sobre un emulador Android 33.
+Recomendaciones si la corres localmente:
+
+- **JDK 17** (no 8): Appium 2 y las herramientas de Android lo requieren.
+- **Imagen de sistema AOSP** (`system-images;android-33;default;x86_64`) en vez
+  de `google_apis`: evita ANRs de las apps de Google que tapan la pantalla.
+- Suprime los dialogos de error del sistema en el emulador (evitan que un ANR
+  bloquee un test):
+
+  ```bash
+  adb shell settings put global hide_error_dialogs 1
+  ```
+
+- En maquinas lentas, arranca el emulador con GPU por hardware:
+  `emulator -avd Pixel_6_API_33 -gpu auto -cores 4 -memory 4096`.
+
+### Ejecutar contra un servidor Appium ya iniciado (opcional)
+
+Por defecto el servicio de WDIO levanta Appium solo. Si prefieres iniciarlo
+aparte (util para depurar), arranca `npx appium` y crea un `wdio.local.conf.js`
+que extienda la config base con `services: []` y `hostname/port/path` hacia
+`127.0.0.1:4723`.
