@@ -4,21 +4,24 @@ import Gestures from '../helpers/Gestures.js';
  * Page Object de la seccion Swipe (carrusel horizontal + logo escondido abajo).
  */
 class SwipePage {
+    // Titulos reales de la primera y ultima tarjeta del carrusel (van en mayuscula).
+    static FIRST_CARD = 'FULLY OPEN SOURCE';
+    static LAST_CARD = 'COMPATIBLE';
+
     get screen() { return $('~Swipe-screen'); }
 
-    // Cada tarjeta del carrusel se identifica por su texto/titulo.
-    // Estos son los titulos que muestra la app demo en cada slide.
+    // Cada tarjeta del carrusel se identifica por el texto/titulo de su slide.
     card(name) {
         return $(`//android.widget.TextView[@text="${name}"]`);
     }
 
-    // Texto escondido que aparece al hacer swipe vertical hasta el final.
+    get firstCard() { return this.card(SwipePage.FIRST_CARD); }
+    get lastCard() { return this.card(SwipePage.LAST_CARD); }
+
+    // Texto escondido que aparece al hacer swipe vertical sobre la tarjeta.
     get foundMeText() {
         return $('//android.widget.TextView[@text="You found me!!!"]');
     }
-
-    // Logo de WebdriverIO (ultima tarjeta del carrusel).
-    get wdioLogo() { return $('~WebdriverIO logo'); }
 
     async waitForIsShown() {
         await this.screen.waitForDisplayed({ timeout: 15000 });

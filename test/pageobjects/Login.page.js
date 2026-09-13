@@ -13,9 +13,9 @@ class LoginPage {
     get password() { return $('~input-password'); }
     get repeatPassword() { return $('~input-repeat-password'); }
 
-    // Botones de envio.
-    get loginButton() { return $('~button-login'); }
-    get signUpButton() { return $('~button-signup'); }
+    // Botones de envio (accessibility id en mayuscula tal como los expone la app).
+    get loginButton() { return $('~button-LOGIN'); }
+    get signUpButton() { return $('~button-SIGN UP'); }
 
     /**
      * Alerta nativa que aparece tras login/signup exitoso.
