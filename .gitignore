@@ -2,3 +2,4 @@ node_modules/
 app/*.apk
 .DS_Store
 *.log
+wdio.local.conf.js

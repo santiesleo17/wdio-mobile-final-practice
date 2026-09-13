@@ -30,6 +30,17 @@ export const config = {
             'appium:appWaitActivity': 'com.wdiodemoapp.MainActivity',
             'appium:newCommandTimeout': 240,
             'appium:autoGrantPermissions': true,
+
+            // Timeouts amplios: en emuladores lentos (GPU por software) la
+            // instalacion del server de uiautomator2 y los comandos adb pueden
+            // tardar mas que el default de 20s.
+            'appium:uiautomator2ServerInstallTimeout': 120000,
+            'appium:uiautomator2ServerLaunchTimeout': 120000,
+            'appium:adbExecTimeout': 120000,
+            'appium:androidInstallTimeout': 180000,
+            'appium:appWaitDuration': 40000,
+            'appium:avdLaunchTimeout': 300000,
+            'appium:avdReadyTimeout': 300000,
         },
     ],
 
@@ -39,7 +50,7 @@ export const config = {
     logLevel: 'info',
     bail: 0,
     waitforTimeout: 15000,
-    connectionRetryTimeout: 120000,
+    connectionRetryTimeout: 300000,
     connectionRetryCount: 3,
 
     // Levanta el servidor de Appium automaticamente al correr los tests.
